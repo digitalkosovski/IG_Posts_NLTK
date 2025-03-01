@@ -24,15 +24,19 @@ from wordcloud import WordCloud
 # Load your data from IG
 df = pd.read_json("path/data.json")
 
+#Explore your DF:
 
-#Manipulation1: ordering by most comments
-df = df.sort_values(by='commentsCount', ascending=False)
+df.head(10)
 
-#Manipulation2: selecting n posts with most comments
-df = df.head(n)
+#Exemple of manipulation 1: ordering by most comments
+df_sorted = df.sort_values(by='commentsCount', ascending=False)
 
-# Merging values in 'caption' column for the same user in a dictionary:
-grouped_text = df.groupby('inputUrl')['caption'].apply(lambda x: ' '.join(x)).to_dict()
+#Exemple of manipulation 2: selecting n posts with most comments
+df_mostcomments = df_sorted.head(n)
+
+# Grouping all posts by IG user: merging values in 'caption' column for the same user in a dictionary
+
+grouped_text = df_mostcomments.groupby('inputUrl')['caption'].apply(lambda x: ' '.join(x)).to_dict()
 
 ##Cleaning the text with NLTK
 
